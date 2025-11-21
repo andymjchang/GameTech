@@ -2,7 +2,7 @@
 
 ARoomManager::ARoomManager()
 {
-    PrimaryActorTick.bCanEverTick = false; // Map data usually doesn't need tick
+    PrimaryActorTick.bCanEverTick = false;
 }
 
 void ARoomManager::BeginPlay()
@@ -10,7 +10,7 @@ void ARoomManager::BeginPlay()
     Super::BeginPlay();
 }
 
-bool ARoomManager::CreateRoom(FHexIndex Index, UDataAsset* Definition)
+bool ARoomManager::CreateRoom(const FHexIndex Index, UDataAsset* Definition)
 {
     if (!IsIndexValid(Index))
     {
@@ -20,7 +20,7 @@ bool ARoomManager::CreateRoom(FHexIndex Index, UDataAsset* Definition)
 
     if (RoomMap.Contains(Index))
     {
-        return false; // Room already exists
+        return false; 
     }
 
     FRoomNode NewRoom(Index);
