@@ -26,7 +26,7 @@ protected:
     TMap<int32, int32> FloorRoomCounts;
 
     UPROPERTY(EditDefaultsOnly, Category = "Room Config")
-    float HexSize = 1000.0f;
+    float HexSize = 1000.f;
 
     UPROPERTY(EditDefaultsOnly, Category = "Room Config")
     float FloorHeight = 500.0f;
