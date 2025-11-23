@@ -12,16 +12,8 @@ void ARoomManager::BeginPlay()
 
 bool ARoomManager::CreateRoom(const FHexIndex Index, UDataAsset* Definition)
 {
-    if (!IsIndexValid(Index))
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Attempted to create room at invalid index: %s"), *Index.ToString());
-        return false;
-    }
-
-    if (RoomMap.Contains(Index))
-    {
-        return false; 
-    }
+    if (!IsIndexValid(Index)) return false;
+    if (RoomMap.Contains(Index)) return false; 
 
     FRoomNode NewRoom(Index);
     NewRoom.RoomDefinition = Definition;
@@ -134,9 +126,7 @@ FVector ARoomManager::GetWorldLocationFromHex(FHexIndex Index) const
 
 bool ARoomManager::IsIndexValid(const FHexIndex& Index) const
 {
-    // "Flower" shape constraint: Distance from center (0,0) <= 1
     // Axial distance formula: (abs(q) + abs(q+r) + abs(r)) / 2
     int32 Distance = (FMath::Abs(Index.Q) + FMath::Abs(Index.Q + Index.R) + FMath::Abs(Index.R)) / 2;
-    
-    return Distance <= 1;
+    return Distance <= MaxHexRadius;
 }

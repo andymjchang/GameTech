@@ -31,6 +31,9 @@ protected:
     UPROPERTY(EditDefaultsOnly, Category = "Room Config")
     float FloorHeight = 500.0f;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Room Config")
+    int MaxHexRadius = 1;
+
 public: 
     // --- Core API ---
 
