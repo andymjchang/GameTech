@@ -34,6 +34,9 @@ protected:
     UPROPERTY(EditDefaultsOnly, Category = "Room Config")
     int MaxHexRadius = 1;
 
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Room Data")
+    FHexIndex CurrentIndex;
+
 public: 
     // --- Core API ---
 
@@ -49,13 +52,16 @@ public:
     UFUNCTION(BlueprintPure, Category = "Room Logic")
     bool HasRoomAt(FHexIndex Index) const;
 
+    UFUNCTION(BlueprintCallable, Category = "Room Logic")
+    bool MoveSelector(ERoomInputDirection InputDir);
+
     // --- Spatial Queries ---
 
     /** * Returns the neighbor index in a specific direction. 
      * Does NOT check if the room exists, just calculates the math.
      */
     UFUNCTION(BlueprintPure, Category = "Room Math")
-    FHexIndex GetNeighborIndex(FHexIndex Origin, ERoomDirection Direction) const;
+    static FHexIndex GetNeighborIndex(FHexIndex Origin, ERoomDirection Direction);
 
     /**
      * Checks if there is a valid, active room adjacent to Origin in the given Direction.
@@ -76,8 +82,19 @@ public:
 
     /** Converts Grid Coordinates to World Space for spawning meshes */
     UFUNCTION(BlueprintPure, Category = "Room Math")
-    FVector GetWorldLocationFromHex(FHexIndex Index) const;
+    FVector GetRelativeLocationFromHex(FHexIndex Index) const;
 
     /** Validates if the hex is within the "Flower" shape (Center + 1 Ring) */
     bool IsIndexValid(const FHexIndex& Index) const;
+
+    /** 
+     * Convert WASD input directions to hexagon movement
+     * Prioritize SW/SE when moving away from center column and NW/NE when moving towards center 
+     */
+    ERoomDirection ToRoomDirection(ERoomInputDirection InputDir) const;
+
+    /**
+     * Tries NW/NE -> SW/SE if the first attempt is invalid.
+     */
+    bool TryResolveNeighborIndex(FHexIndex Origin, ERoomDirection Direction, FHexIndex& OutIndex) const;
 };

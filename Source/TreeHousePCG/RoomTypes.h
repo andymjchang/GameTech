@@ -4,9 +4,19 @@
 #include "Engine/DataAsset.h"
 #include "RoomTypes.generated.h"
 
+UENUM(BlueprintType)
+enum class ERoomInputDirection : uint8
+{
+    North,
+    South,
+    West,
+    East,
+    Up,
+    Down
+};
+
 /**
  * Directions for 8-way connectivity + Verticality
- * Matches the TDD specification: 0-5 cardinal hex, 6 Up, 7 Down
  */
 UENUM(BlueprintType)
 enum class ERoomDirection : uint8
